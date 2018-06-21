@@ -28,8 +28,6 @@ function onReady() {
     //empty the input
     newToDoText.value = '';
 
-
-
      // add delete button
      let deletebtn = document.createElement('button');
 
