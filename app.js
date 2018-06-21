@@ -27,7 +27,27 @@ function onReady() {
 
     //empty the input
     newToDoText.value = '';
-   
+
+
+
+     // add delete button
+     let deletebtn = document.createElement('button');
+
+     // create a text node
+     let deleteinput = document.createTextNode('Delete');
+
+     // append the text to <button>
+     deletebtn.appendChild(deleteinput);
+
+     // append <button> to <form>
+     newLi.appendChild(deletebtn);
+
+      deletebnt.addEventListener('click', function (){
+         let deleteLi = newToDoText.value;
+         toDoList.removeChild(deleteLi);
+     });
+    
+       
 });
 }
 window.onload = function() {
