@@ -40,7 +40,7 @@ function onReady() {
      // append <button> to <form>
      newLi.appendChild(deletebtn);
 
-      deletebnt.addEventListener('click', function (){
+      deletebtn.addEventListener('click', function (){
          let deleteLi = newToDoText.value;
          toDoList.removeChild(deleteLi);
      });
