@@ -1,53 +1,63 @@
 function onReady() {
-    const addToDoForm = document.getElementById('addToDoForm');
+  const toDos = [];
+  const addToDoForm = document.getElementById('addToDoForm');
+  let id = 0;
+
+  function createNewToDo() {
     const newToDoText = document.getElementById('newToDoText');
-    const toDoList = document.getElementById('toDoList');
-    
-    addToDoForm.addEventListener('submit', event => {
-        event.preventDefault();
-        // get the text
-    let title = newToDoText.value;
-       // create a new li
-       let newLi = document.createElement('li');
-
-       // create a new input
-       let checkbox = document.createElement('input');
-   
-       // set the input's type to checkbox
-       checkbox.type = "checkbox";
-
-         // set the title
-    newLi.textContent = title;
-
-    // attach the checkbox to the li
-    newLi.appendChild(checkbox);
-
-    // attach the li to the ul
-    toDoList.appendChild(newLi);
-
-    //empty the input
+    if (!newToDoText.value) { return; }
+    toDos.push({
+      title: newToDoText.value,
+      complete: false,
+      id: ++id,
+    });
     newToDoText.value = '';
 
-     // add delete button
-     let deletebtn = document.createElement('button');
+  }
 
-     // create a text node
-     let deleteinput = document.createTextNode('Delete');
+  function deleteToDo(id) {
+    return toDos.filter(toDo => toDo.id !== id);
+  }
 
-     // append the text to <button>
-     deletebtn.appendChild(deleteinput);
+  function renderTheUI() {
+    const toDoList = document.getElementById('toDoList');
+    toDoList.textContent = '';
 
-     // append <button> to <form>
-     newLi.appendChild(deletebtn);
+    toDos.forEach(function (toDo) {
+      const newLi = document.createElement('li');
 
-      deletebnt.addEventListener('click', function (){
-         let deleteLi = newToDoText.value;
-         toDoList.removeChild(deleteLi);
-     });
-    
-       
-});
+      const checkbox = document.createElement('input');
+      checkbox.type = "checkbox";
+
+      let deleteBtn = document.createElement('button');
+
+      let deleteText = document.createTextNode('Delete');
+
+      newLi.innerHTML = toDo.title;
+
+      toDoList.appendChild(newLi);
+      deleteBtn.appendChild(deleteText);
+      newLi.appendChild(checkbox);
+      newLi.appendChild(deleteBtn);
+
+      deleteBtn.addEventListener('click', function () {
+        newLi.parentNode.removeChild(newLi);
+        toDos = deleteToDo(toDo.id);
+        renderTheUI();
+
+      });
+    });
+  }
+
+  addToDoForm.addEventListener('submit', event => {
+    event.preventDefault();
+    createNewToDo();
+    renderTheUI();
+  });
+
+  renderTheUI();
 }
-window.onload = function() {
-    onReady();
-  };
+
+window.onload = function () {
+  onReady();
+};
